@@ -36,5 +36,15 @@ describe('memory-db methods', () => {
     const dog3 = db.create({ name: 'Lewis' });
     expect(db.find()).toEqual([{ ...dog2 }, { ...dog3 }]);
   });
+  it('finds and replaces obj based on id', () => {
+    const newDog = db.create({ name: 'Rufus' });
+    let id = newDog.id;
+    expect(db.findByIdReplace(id, { name: 'Rufus' })).toEqual({ id: expect.any(String), name: 'Rufus' });
+  });
+  it('find obj and deletes by id', () => {
+    const newDog = db.create({ name: 'Raj' });
+    let id = newDog.id;
+    expect(db.findByIdDelete(id)).toEqual({ ...newDog });
+  });
 });
   
