@@ -46,5 +46,10 @@ describe('memory-db methods', () => {
     let id = newDog.id;
     expect(db.findByIdDelete(id)).toEqual({ ...newDog });
   });
+  test('drop clears all items from storage', () => {
+    db.create({ name: 'Ruby' });
+    db.drop();
+    expect(db.store).toEqual({});
+  });
 });
   
