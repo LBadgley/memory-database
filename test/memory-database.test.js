@@ -1,40 +1,40 @@
 const MemoryDatabase = require('../lib/memory-database');
 
 describe('memory-db methods', () => {
-  let db;
-
+  let db = null;
   beforeEach(() => {
     db = new MemoryDatabase();
   });
 
-  describe('memory database (create method)', () => {
-    it('checks store is instantiated', () => {
-      expect(db.store).toEqual({});
-    });
-    it('can create new items', () => {
-      const dog = {
-        name: 'rufus'
-      };
-      const newDog = db.create(dog);
-      expect(Object.values(db.store)).toContainEqual(newDog);
-    });
+  it('create empty store', () => {
+    expect(db.store).toEqual({});
   });
-  
 
+  it('can create a new item', () => {
+    const dog = {
+      name: 'Rufus',
+    };
 
-  // describe('findById method', () => {
-  //   it('can find object  by ID', () => {
-  //     const dog = {
-  //       name: 'rufus'
-  //     };
-  //     const newDog = db.create(dog);
-  //
-  //newDog should hold the returned object with the id in it;
-  //from there, bracket notate the id off the store
-  //     expect(db.findById(newDog.id)).toEqual(newDog);
-  //   });
+    const newDog = db.create(dog);
+    expect(Object.values(db.store)).toContainEqual(newDog);
+  });
 
+  it('returns obj from id', () => {
+    const dog = { name: 'Rufus' };
+    const newDog = db.create(dog);
+    expect(db.findById(newDog.id)).toEqual({ ...newDog });
+  });
+
+  it('return null from invalid id', () => {
+    const dog = { name: 'Rufus' };
+    db.create(dog);
+    expect(db.findById(2)).toEqual(null);
+  });
+
+  it('returns all objs in this.store', () => {
+    const dog2 = db.create({ name: 'Katey Rose' });
+    const dog3 = db.create({ name: 'Lewis' });
+    expect(db.find()).toEqual([{ ...dog2 }, { ...dog3 }]);
+  });
 });
-
-
-//findById
+  
